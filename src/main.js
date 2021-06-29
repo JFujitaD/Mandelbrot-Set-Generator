@@ -32,21 +32,33 @@ class ComplexNumber {
 
 console.log("Running main.js")
 
+// Constants
 let BG_COLOR = "#000000"
 let PIXEL_COLOR = "#FFFFFF"
+let THRESHHOLD = 1000
 
+// Canvas
 var canvas = document.getElementById("canvas")
 var context = canvas.getContext("2d")
 
 let WIDTH = canvas.width
 let HEIGHT = canvas.height
 
+// Background Fill
 context.fillStyle = BG_COLOR
 context.fillRect(0, 0, WIDTH, HEIGHT)
 
+// Generate Mandelbrot Set
+// Zn+1 = Zn + C
+// Z0 = 0
+// C is a complex number 
 context.fillStyle = PIXEL_COLOR
-for (var x = 0; x < WIDTH; x++){
-    for(var y = 0; y < HEIGHT; y++){
+for (var x = 0; x <= WIDTH; x++){
+    for(var y = HEIGHT; y >= 0; y--){
         // TODO
+        let centerX = x - (WIDTH / 2)
+        let centerY = -y + (HEIGHT / 2)
+        let cn = new ComplexNumber(centerX, centerY)
+        cn.display() 
     }
 }
