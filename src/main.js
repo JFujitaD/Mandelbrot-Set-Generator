@@ -32,14 +32,21 @@ class ComplexNumber {
 
 console.log("Running main.js")
 
+let BG_COLOR = "#000000"
+let PIXEL_COLOR = "#FFFFFF"
+
 var canvas = document.getElementById("canvas")
 var context = canvas.getContext("2d")
 
-let width = canvas.width
-let height = canvas.height
+let WIDTH = canvas.width
+let HEIGHT = canvas.height
 
-var cn1 = new ComplexNumber(3, 2)
+context.fillStyle = BG_COLOR
+context.fillRect(0, 0, WIDTH, HEIGHT)
 
-cn1.square()
-
-cn1.display()
+context.fillStyle = PIXEL_COLOR
+for (var x = 0; x < WIDTH; x++){
+    for(var y = 0; y < HEIGHT; y++){
+        // TODO
+    }
+}
