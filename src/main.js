@@ -18,6 +18,11 @@ class ComplexNumber {
         this.imaginary = imaginary
     }
 
+    zero(){
+        this.real = 0
+        this.imaginary = 0
+    }
+
     display(){
         var string
 
@@ -35,7 +40,9 @@ console.log("Running main.js")
 // Constants
 let BG_COLOR = "#000000"
 let PIXEL_COLOR = "#FFFFFF"
-let THRESHHOLD = 1000
+let STEP = 0.25
+let BOUNDARY = 1000
+let LIMIT = 5;
 
 // Canvas
 var canvas = document.getElementById("canvas")
@@ -49,16 +56,25 @@ context.fillStyle = BG_COLOR
 context.fillRect(0, 0, WIDTH, HEIGHT)
 
 // Generate Mandelbrot Set
-// Zn+1 = Zn + C
+// Zn+1 = (Zn)^2 + C
 // Z0 = 0
 // C is a complex number 
 context.fillStyle = PIXEL_COLOR
-for (var x = 0; x <= WIDTH; x++){
-    for(var y = HEIGHT; y >= 0; y--){
-        // TODO
+for (var x = 0; x <= WIDTH; x += STEP){
+    for(var y = HEIGHT; y >= 0; y -= STEP){
         let centerX = x - (WIDTH / 2)
         let centerY = -y + (HEIGHT / 2)
         let cn = new ComplexNumber(centerX, centerY)
-        cn.display() 
+        let z = new ComplexNumber(0, 0)
+        
+        for(var i = 0; i < LIMIT; i++){
+            z.square()
+            z.add(cn)
+        }
+        if(z.real < BOUNDARY && z.imaginary < BOUNDARY){
+            context.fillRect(x, y, STEP, STEP)
+        }
     }
 }
+
+console.log("Finished running main.js")
