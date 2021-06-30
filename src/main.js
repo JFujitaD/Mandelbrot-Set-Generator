@@ -41,58 +41,40 @@ console.log("Running main.js")
 let BG_COLOR = "#000000"
 let PIXEL_COLOR = "#FF0000"
 let STEP = 0.005
-let BOUNDARY = 100
-let LIMIT = 10
-let REAL_MAX = 2
-let IMAGINARY_MAX = 2
+let BOUNDARY = 3
+let ITERATIONS = 100
+let FRACTAL_WIDTH = 4
+let FRACTAL_HEIGHT = 4
 
 // Canvas
 var canvas = document.getElementById("canvas")
 var context = canvas.getContext("2d")
 
-let WIDTH = canvas.width
-let HEIGHT = canvas.height
+let CANVAS_WIDTH = canvas.width
+let CANVAS_HEIGHT = canvas.height
 
 // Background Fill
 context.fillStyle = BG_COLOR
-context.fillRect(0, 0, WIDTH, HEIGHT)
+context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
 // Generate Mandelbrot Set
 // Zn+1 = (Zn)^2 + C
 // Z0 = 0
 // C is a complex number 
-// context.fillStyle = PIXEL_COLOR
-// for (var x = 0; x <= WIDTH; x += STEP){
-//     for(var y = HEIGHT; y >= 0; y -= STEP){
-//         let centerX = x - (WIDTH / 2)
-//         let centerY = -y + (HEIGHT / 2)
-//         let cn = new ComplexNumber(centerX, centerY)
-//         let z = new ComplexNumber(0, 0)
-        
-//         for(var i = 0; i < LIMIT; i++){
-//             z.square()
-//             z.add(cn)
-//         }
-//         if(Math.abs(z.real) < BOUNDARY && Math.abs(z.imaginary) < BOUNDARY){
-//             context.fillRect(x, y, STEP, STEP)
-//         }
-//     }
-// }
-
-for(var x = 0; x <= WIDTH; x += STEP){
-    for(var y = HEIGHT; y >= 0; y -= STEP){
-        let coordX = x - REAL_MAX
-        let coordY = IMAGINARY_MAX / HEIGHT
-     
-        let cn = new ComplexNumber(x, y)
+context.fillStyle = PIXEL_COLOR
+for(var x = -FRACTAL_WIDTH / 2; x < FRACTAL_WIDTH / 2; x += STEP){
+    for(var y = -FRACTAL_HEIGHT / 2; y < FRACTAL_HEIGHT / 2; y += STEP){
+        let coordX = (x / FRACTAL_WIDTH + 0.5) * CANVAS_WIDTH
+        let coordY = -(y / FRACTAL_HEIGHT - 0.5) * CANVAS_HEIGHT
+        let c = new ComplexNumber(x, y)
         let z = new ComplexNumber(0, 0)
 
-        for(var i = 0; i < LIMIT; i++){
+        for(var i = 0; i < ITERATIONS; i++){
             z.square()
-            z.add(cn)
+            z.add(c)
         }
         if(Math.abs(z.real) < BOUNDARY && Math.abs(z.imaginary) < BOUNDARY){
-            context.fillRect(x, y, STEP, STEP)
+            context.fillRect(coordX, coordY, 1, 1)
         }
     }
 }
