@@ -1,3 +1,29 @@
+// Canvas
+var canvas = document.getElementById("canvas")
+var context = canvas.getContext("2d")
+
+let CANVAS_WIDTH = canvas.width
+let CANVAS_HEIGHT = canvas.height
+
+// Controls
+let sizeControl
+
+// On Load
+window.onload = function(){
+    sizeControl = document.getElementById("size")
+    sizeControl.onchange = function(){
+        canvas.width = sizeControl.value
+        CANVAS_WIDTH = canvas.width
+        canvas.height = sizeControl.value
+        CANVAS_HEIGHT = canvas.height
+        
+        generateMandelbrotSet()
+    }
+
+    generateMandelbrotSet()
+}
+
+
 class ComplexNumber {
 
     constructor(real, imaginary){
@@ -35,8 +61,6 @@ class ComplexNumber {
     }
 }
 
-console.log("Running main.js")
-
 // Constants
 let BG_COLOR = "#000000"
 let PIXEL_COLOR = "#FFFFFF"
@@ -46,37 +70,32 @@ let ITERATIONS = 100
 let FRACTAL_WIDTH = 4
 let FRACTAL_HEIGHT = 4
 
-// Canvas
-var canvas = document.getElementById("canvas")
-var context = canvas.getContext("2d")
-
-let CANVAS_WIDTH = canvas.width
-let CANVAS_HEIGHT = canvas.height
-
-// Background Fill
-context.fillStyle = BG_COLOR
-context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-
 // Generate Mandelbrot Set
 // Zn+1 = (Zn)^2 + C
 // Z0 = 0
 // C is a complex number 
-context.fillStyle = PIXEL_COLOR
-for(var x = -FRACTAL_WIDTH / 2; x < FRACTAL_WIDTH / 2; x += STEP){
-    for(var y = -FRACTAL_HEIGHT / 2; y < FRACTAL_HEIGHT / 2; y += STEP){
-        let coordX = (x / FRACTAL_WIDTH + 0.5) * CANVAS_WIDTH
-        let coordY = -(y / FRACTAL_HEIGHT - 0.5) * CANVAS_HEIGHT
-        let c = new ComplexNumber(x, y)
-        let z = new ComplexNumber(0, 0)
+function generateMandelbrotSet(){
+    
+    // Background Fill
+    context.fillStyle = BG_COLOR
+    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-        for(var i = 0; i < ITERATIONS; i++){
-            z.square()
-            z.add(c)
-        }
-        if(Math.abs(z.real) < BOUNDARY && Math.abs(z.imaginary) < BOUNDARY){
-            context.fillRect(coordX, coordY, 1, 1)
+    // Plot points
+    context.fillStyle = PIXEL_COLOR
+    for(var x = -FRACTAL_WIDTH / 2; x < FRACTAL_WIDTH / 2; x += STEP){
+        for(var y = -FRACTAL_HEIGHT / 2; y < FRACTAL_HEIGHT / 2; y += STEP){
+            let coordX = (x / FRACTAL_WIDTH + 0.5) * CANVAS_WIDTH
+            let coordY = -(y / FRACTAL_HEIGHT - 0.5) * CANVAS_HEIGHT
+            let c = new ComplexNumber(x, y)
+            let z = new ComplexNumber(0, 0)
+
+            for(var i = 0; i < ITERATIONS; i++){
+                z.square()
+                z.add(c)
+            }
+            if(Math.abs(z.real) < BOUNDARY && Math.abs(z.imaginary) < BOUNDARY){
+                context.fillRect(coordX, coordY, 1, 1)
+            }
         }
     }
 }
-
-console.log("Finished running main.js")
