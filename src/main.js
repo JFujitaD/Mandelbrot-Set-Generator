@@ -39,9 +39,9 @@ console.log("Running main.js")
 
 // Constants
 let BG_COLOR = "#000000"
-let PIXEL_COLOR = "#FF0000"
+let PIXEL_COLOR = "#FFFFFF"
 let STEP = 0.005
-let BOUNDARY = 3
+let BOUNDARY = 1000
 let ITERATIONS = 100
 let FRACTAL_WIDTH = 4
 let FRACTAL_HEIGHT = 4
