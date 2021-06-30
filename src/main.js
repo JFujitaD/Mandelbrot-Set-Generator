@@ -16,6 +16,7 @@ var context = canvas.getContext("2d")
 // Controls
 let sizeControl
 let resolutionControl
+let title
 
 // On Load
 window.onload = function(){
@@ -35,6 +36,8 @@ window.onload = function(){
 
         generateMandelbrotSet()
     }
+
+    title = document.getElementById("title")
 
     generateMandelbrotSet()
 }
@@ -82,7 +85,8 @@ class ComplexNumber {
 // Z0 = 0
 // C is a complex number 
 function generateMandelbrotSet(){
-    
+    title.innerHTML = "Generating..."
+
     // Background Fill
     context.fillStyle = BG_COLOR
     context.fillRect(0, 0, canvas.width, canvas.height)
@@ -105,4 +109,8 @@ function generateMandelbrotSet(){
             }
         }
     }
+
+    title.innerHTML = "Mandelbrot Set"
 }
+
+
