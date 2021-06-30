@@ -2,12 +2,12 @@
 let BG_COLOR = "#000000"
 let PIXEL_COLOR = "#FFFFFF"
 let BOUNDARY = 1000
-let ITERATIONS = 100
 let FRACTAL_WIDTH = 4
 let FRACTAL_HEIGHT = 4
 
 // Additional variables
 var step = 0.005
+var iterations = 100
 
 // Canvas
 var canvas = document.getElementById("canvas")
@@ -16,6 +16,7 @@ var context = canvas.getContext("2d")
 // Controls
 let sizeControl
 let resolutionControl
+let iterationControl
 let title
 
 // On Load
@@ -33,6 +34,14 @@ window.onload = function(){
     resolutionControl.value = 5
     resolutionControl.onchange = function(){
         step = resolutionControl.value * 0.001
+
+        generateMandelbrotSet()
+    }
+
+    iterationControl = document.getElementById("iterations")
+    iterationControl.value = iterations
+    iterationControl.onchange = function(){
+        iterations = iterationControl.value 
 
         generateMandelbrotSet()
     }
@@ -85,8 +94,8 @@ class ComplexNumber {
 // Z0 = 0
 // C is a complex number 
 function generateMandelbrotSet(){
-    title.innerHTML = "Generating..."
 
+    
     // Background Fill
     context.fillStyle = BG_COLOR
     context.fillRect(0, 0, canvas.width, canvas.height)
@@ -100,7 +109,7 @@ function generateMandelbrotSet(){
             let c = new ComplexNumber(x, y)
             let z = new ComplexNumber(0, 0)
 
-            for(var i = 0; i < ITERATIONS; i++){
+            for(var i = 0; i < iterations; i++){
                 z.square()
                 z.add(c)
             }
