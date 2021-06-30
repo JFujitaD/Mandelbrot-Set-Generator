@@ -39,10 +39,12 @@ console.log("Running main.js")
 
 // Constants
 let BG_COLOR = "#000000"
-let PIXEL_COLOR = "#FFFFFF"
-let STEP = 0.25
-let BOUNDARY = 1000
-let LIMIT = 5;
+let PIXEL_COLOR = "#FF0000"
+let STEP = 0.005
+let BOUNDARY = 100
+let LIMIT = 10
+let REAL_MAX = 2
+let IMAGINARY_MAX = 2
 
 // Canvas
 var canvas = document.getElementById("canvas")
@@ -59,19 +61,37 @@ context.fillRect(0, 0, WIDTH, HEIGHT)
 // Zn+1 = (Zn)^2 + C
 // Z0 = 0
 // C is a complex number 
-context.fillStyle = PIXEL_COLOR
-for (var x = 0; x <= WIDTH; x += STEP){
-    for(var y = HEIGHT; y >= 0; y -= STEP){
-        let centerX = x - (WIDTH / 2)
-        let centerY = -y + (HEIGHT / 2)
-        let cn = new ComplexNumber(centerX, centerY)
-        let z = new ComplexNumber(0, 0)
+// context.fillStyle = PIXEL_COLOR
+// for (var x = 0; x <= WIDTH; x += STEP){
+//     for(var y = HEIGHT; y >= 0; y -= STEP){
+//         let centerX = x - (WIDTH / 2)
+//         let centerY = -y + (HEIGHT / 2)
+//         let cn = new ComplexNumber(centerX, centerY)
+//         let z = new ComplexNumber(0, 0)
         
+//         for(var i = 0; i < LIMIT; i++){
+//             z.square()
+//             z.add(cn)
+//         }
+//         if(Math.abs(z.real) < BOUNDARY && Math.abs(z.imaginary) < BOUNDARY){
+//             context.fillRect(x, y, STEP, STEP)
+//         }
+//     }
+// }
+
+for(var x = 0; x <= WIDTH; x += STEP){
+    for(var y = HEIGHT; y >= 0; y -= STEP){
+        let coordX = x - REAL_MAX
+        let coordY = IMAGINARY_MAX / HEIGHT
+     
+        let cn = new ComplexNumber(x, y)
+        let z = new ComplexNumber(0, 0)
+
         for(var i = 0; i < LIMIT; i++){
             z.square()
             z.add(cn)
         }
-        if(z.real < BOUNDARY && z.imaginary < BOUNDARY){
+        if(Math.abs(z.real) < BOUNDARY && Math.abs(z.imaginary) < BOUNDARY){
             context.fillRect(x, y, STEP, STEP)
         }
     }
