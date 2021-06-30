@@ -1,22 +1,38 @@
+// Constants
+let BG_COLOR = "#000000"
+let PIXEL_COLOR = "#FFFFFF"
+let BOUNDARY = 1000
+let ITERATIONS = 100
+let FRACTAL_WIDTH = 4
+let FRACTAL_HEIGHT = 4
+
+// Additional variables
+var step = 0.005
+
 // Canvas
 var canvas = document.getElementById("canvas")
 var context = canvas.getContext("2d")
 
-let CANVAS_WIDTH = canvas.width
-let CANVAS_HEIGHT = canvas.height
-
 // Controls
 let sizeControl
+let resolutionControl
 
 // On Load
 window.onload = function(){
     sizeControl = document.getElementById("size")
+    sizeControl.value = canvas.width
     sizeControl.onchange = function(){
         canvas.width = sizeControl.value
-        CANVAS_WIDTH = canvas.width
         canvas.height = sizeControl.value
-        CANVAS_HEIGHT = canvas.height
         
+        generateMandelbrotSet()
+    }
+
+    resolutionControl = document.getElementById("resolution")
+    resolutionControl.value = 5
+    resolutionControl.onchange = function(){
+        step = resolutionControl.value * 0.001
+
         generateMandelbrotSet()
     }
 
@@ -61,15 +77,6 @@ class ComplexNumber {
     }
 }
 
-// Constants
-let BG_COLOR = "#000000"
-let PIXEL_COLOR = "#FFFFFF"
-let STEP = 0.005
-let BOUNDARY = 1000
-let ITERATIONS = 100
-let FRACTAL_WIDTH = 4
-let FRACTAL_HEIGHT = 4
-
 // Generate Mandelbrot Set
 // Zn+1 = (Zn)^2 + C
 // Z0 = 0
@@ -78,14 +85,14 @@ function generateMandelbrotSet(){
     
     // Background Fill
     context.fillStyle = BG_COLOR
-    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    context.fillRect(0, 0, canvas.width, canvas.height)
 
     // Plot points
     context.fillStyle = PIXEL_COLOR
-    for(var x = -FRACTAL_WIDTH / 2; x < FRACTAL_WIDTH / 2; x += STEP){
-        for(var y = -FRACTAL_HEIGHT / 2; y < FRACTAL_HEIGHT / 2; y += STEP){
-            let coordX = (x / FRACTAL_WIDTH + 0.5) * CANVAS_WIDTH
-            let coordY = -(y / FRACTAL_HEIGHT - 0.5) * CANVAS_HEIGHT
+    for(var x = -FRACTAL_WIDTH / 2; x < FRACTAL_WIDTH / 2; x += step){
+        for(var y = -FRACTAL_HEIGHT / 2; y < FRACTAL_HEIGHT / 2; y += step){
+            let coordX = (x / FRACTAL_WIDTH + 0.5) * canvas.width
+            let coordY = -(y / FRACTAL_HEIGHT - 0.5) * canvas.height
             let c = new ComplexNumber(x, y)
             let z = new ComplexNumber(0, 0)
 
